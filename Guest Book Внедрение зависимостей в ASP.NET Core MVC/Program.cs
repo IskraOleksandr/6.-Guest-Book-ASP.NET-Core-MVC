@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Models;
+using Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,7 @@ builder.Services.AddDbContext<Guest_BookContext>(options => options.UseSqlServer
 
 // Добавляем сервисы MVC
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IRepository, Guest_Book_Repository>();
 
 var app = builder.Build();
 app.UseSession();   // Добавляем middleware-компонент для работы с сессиями

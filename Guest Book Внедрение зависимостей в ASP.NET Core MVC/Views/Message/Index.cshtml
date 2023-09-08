@@ -23,13 +23,13 @@
         </form>
     }
      
-    @foreach (var mess in ViewBag.Message)
+    @foreach (var item in Model)
     {
         <br />
         <div class="div_mess">
-            <label class="label1">@mess.User.Login</label>
-            <p class="p1">@mess.MessageText</p>
-            <label class="label2">@mess.MessageDate</label>
+            <label class="label1">@item.User.Login</label>
+            <p class="p1">@item.MessageText</p>
+            <label class="label2">@item.MessageDate</label>
         </div>
     }
 </div>

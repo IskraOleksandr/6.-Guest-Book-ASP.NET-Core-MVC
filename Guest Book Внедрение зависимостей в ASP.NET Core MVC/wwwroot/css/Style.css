@@ -143,7 +143,8 @@ html {
 
 .p1 {
     width: 510px;
-    height: max-content;
+    min-height: max-content;
+    height: auto;
     font-size: 22px;
     text-align: center;
     color: white;
@@ -152,6 +153,12 @@ html {
     padding-top: 15px;
     padding-bottom: 15px;
     background-color: #0084ff;
+    
+    padding-left:15px;
+    padding-right:15px;
+
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .div_mess {
