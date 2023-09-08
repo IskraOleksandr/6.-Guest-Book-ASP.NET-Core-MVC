@@ -1,4 +1,5 @@
 ﻿using Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Models;
+using Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
@@ -7,11 +8,11 @@ namespace Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core
 {
     public class UserController : Controller
     {
-        private readonly Guest_BookContext _context;
+        IRepository _repository; 
 
-        public UserController(Guest_BookContext context)
+        public UserController(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public ActionResult Login()
@@ -21,22 +22,23 @@ namespace Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginModel logon)
+        public async Task<IActionResult> Login(LoginModel logon)
         {
             if (ModelState.IsValid)
             {
-                if (_context.Users.ToList().Count == 0)
+                var users = await _repository.GetUsers();
+                if (users.Count == 0)
                 {
                     ModelState.AddModelError("", "Не коректный логин или пароль!");
                     return View(logon);
                 }
-                var users = _context.Users.Where(a => a.Login == logon.Login);
-                if (users.ToList().Count == 0)
+                var users_t = users.Where(a => a.Login == logon.Login);
+                if (users_t.ToList().Count == 0)
                 {
                     ModelState.AddModelError("", "Не коректный логин или пароль!");
                     return View(logon);
                 }
-                var user = users.First();
+                var user = users_t.First();
                 string? salt = user.Salt;
 
                 //переводим пароль в байт-массив  
@@ -57,7 +59,8 @@ namespace Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core
                     ModelState.AddModelError("", "Не коректный логин или пароль!");
                     return View(logon);
                 }
-                HttpContext.Session.SetString("Login", user.Login); 
+                HttpContext.Session.SetString("Login", user.Login);
+
                 return RedirectToAction("Index", "Message");
             }
             return View(logon);
@@ -70,7 +73,7 @@ namespace Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(RegisterModel reg)
+        public async Task<IActionResult> Register(RegisterModel reg)
         {
             if (ModelState.IsValid)
             {
@@ -102,8 +105,10 @@ namespace Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core
 
                 user.Password = hash.ToString();
                 user.Salt = salt;
-                _context.Users.Add(user);
-                _context.SaveChanges();
+
+                await _repository.AddUser(user);
+                await _repository.Save();
+         
                 return RedirectToAction("Login");
             }
 
