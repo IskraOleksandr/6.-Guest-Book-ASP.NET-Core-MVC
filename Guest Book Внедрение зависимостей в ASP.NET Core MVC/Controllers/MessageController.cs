@@ -1,4 +1,5 @@
 ﻿using Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Models;
+using Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -7,30 +8,28 @@ namespace Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core
 {
     public class MessageController : Controller
     {
-        private readonly Guest_BookContext _context;
+        IRepository _repository; 
 
-        public MessageController(Guest_BookContext context)
+        public MessageController(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<ActionResult> Index()
         {
-            if (HttpContext.Session.GetString("Login") != null )
+            if (HttpContext.Session.GetString("Login") != null)
             {
-                IEnumerable<Message> messages = await Task.Run(() => _context.Messages.Include(u => u.User));
-                ViewBag.Message = messages;
-                return View();
+                var model = await _repository.GetMessages(); 
+                return View(model);
             }
-            else 
+            else
                 return RedirectToAction("Login", "User");
         }
 
         public async Task<ActionResult> Guest()
         {
-            IEnumerable<Message> messages = await Task.Run(() => _context.Messages.Include(u => u.User));
-            ViewBag.Message = messages;
-            return View("Index");
+            var model = await _repository.GetMessages(); 
+            return View("Index", model);
         }
 
         public ActionResult Logout()
@@ -54,7 +53,7 @@ namespace Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core
             if (HttpContext.Session.GetString("Login") == null)
                 return RedirectToAction("Login", "User");
 
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Login == user_login);
+            var user = await _repository.GetUser(user_login);
 
             var mes = new Message
             {
@@ -63,8 +62,8 @@ namespace Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core
                 MessageDate = DateTime.Now
             };
 
-            _context.Messages.Add(mes);
-            _context.SaveChanges();
+            await _repository.AddMessage(mes);
+            await _repository.Save(); 
 
             return RedirectToAction("Index", "Message");
         }
