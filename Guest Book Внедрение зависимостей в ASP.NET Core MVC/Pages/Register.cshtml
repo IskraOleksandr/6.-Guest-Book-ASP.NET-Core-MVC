@@ -1,0 +1,49 @@
+﻿@page
+@model Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Pages.RegisterModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<br>
+<div>
+    <div class="dv1">
+        <div class="div_h1">
+            <h1 class="h1_n">Регистрация </h1>
+        </div>
+        <div>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <br>
+                <div class="div_com_t">
+                    <span asp-validation-for="reg.Login" class="span_error"></span>
+                    <div class="div_com_t1">
+                        <label asp-for="reg.Login" class="label"></label>
+                        <input asp-for="reg.Login" class="input1" type="text" />
+                    </div>
+                </div>
+
+                <div class="div_com_t">
+                    <span asp-validation-for="reg.Password" class="span_error"></span>
+                    <div class="div_com_t1">
+                        <label asp-for="reg.Password" class="label"></label>
+                        <input asp-for="reg.Password" class="input1" type="text" />
+                    </div>
+                </div>
+
+                <div class="div_com_t">
+                    <span asp-validation-for="reg.PasswordConfirm" class="span_error"></span>
+                    <div class="div_com_t1">
+                        <label asp-for="reg.PasswordConfirm" class="label"></label>
+                        <input asp-for="reg.PasswordConfirm" class="input1" type="text" />
+                    </div>
+                </div>
+
+                <div class=" div_subm" style="margin-top: 120px;">
+                    <input class="input_subm" type="submit" value="Check in" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

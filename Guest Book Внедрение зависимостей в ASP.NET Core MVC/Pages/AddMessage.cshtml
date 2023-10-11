@@ -1,0 +1,21 @@
+﻿@page
+@model Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Pages.AddMessageModel
+@{
+    ViewBag.Title = "AddMessage";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<br>
+<div>
+    <form method="post">
+            <div class="div_h1">
+                <h1 class="h1_n">Добавление сообщения </h1>
+            </div>
+            <div class="div_text_area">
+                <textarea name="mes_text" class="text_area" cols="30" rows="10"></textarea>
+            </div>
+
+            <div class="div_com div_com3v">
+                <input class="input_subm" type="submit" value="Отправить" />
+            </div>
+        </form> 
+</div>

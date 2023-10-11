@@ -10,17 +10,19 @@
 <body>
     <header>
         <div class="my_nav">
-            <a asp-area="" asp-controller="Message" asp-action="Guest" class="active">Гостевая книга</a> 
-            <a asp-area="" asp-controller="User" asp-action="Register">Регистрация</a>
+            <a asp-page="Index" class="active">Гостевая книга</a> 
+            
 
             @if (Context.Session.GetString("Login") == null)
             {
-                <a style="float: right;" asp-area="" asp-controller="User" asp-action="Login">Вход</a>
+                <a asp-page="Register">Регистрация</a>
+                <a style="float: right;" asp-page="./Login">Вход</a>
             }
             else
             {
-                <a style="float: right;" asp-area="" asp-controller="Message" asp-action="Logout">Выход</a>
+                <a style="float: right;" asp-page="Logout">Выход</a>
                 <a class="active" style="float: right;">Здравствуйте, @Context.Session.GetString("Login") </a>
+                <a asp-page="AddMessage">Добавить сообщение</a>
             }
 
         </div> 

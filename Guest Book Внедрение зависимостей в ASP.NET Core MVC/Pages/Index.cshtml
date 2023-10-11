@@ -1,0 +1,19 @@
+﻿@page
+@model Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Pages.IndexModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<br>
+<div>  
+    @foreach (var item in Model.Message_)
+    {
+        <br />
+        <div class="div_mess">
+            <label class="label1">@item.User.Login</label>
+            <p class="p1">@item.MessageText</p>
+            <label class="label2">@item.MessageDate</label>
+        </div>
+    }
+</div>

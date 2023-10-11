@@ -16,15 +16,13 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddDbContext<Guest_BookContext>(options => options.UseSqlServer(connection));
 
 // Добавляем сервисы MVC
-builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddScoped<IRepository, Guest_Book_Repository>();
 
 var app = builder.Build();
 app.UseSession();   // Добавляем middleware-компонент для работы с сессиями
 app.UseStaticFiles(); // обрабатывает запросы к файлам в папке wwwroot
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Message}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.Run();

@@ -1,0 +1,40 @@
+﻿@page
+@model Guest_Book_Внедрение_зависимостей_в_ASP.NET_Core_MVC.Pages.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<br>
+<div>
+    <div class="dv1">
+        <div class="div_h1">
+            <h1 class="h1_n">Вход </h1>
+        </div>
+        <div>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <br>
+                <div class="div_com_t">
+                    <span class="span_error" asp-validation-for="logon.Login_"></span>
+                    <div class="div_com_t1">
+                        <label asp-for="logon.Login_" class="label"></label>
+                        <input asp-for="logon.Login_" class="input1" />
+                    </div>
+                </div>
+
+                <div class="div_com_t">
+                    <span class="span_error" asp-validation-for="logon.Password"></span>
+                    <div class="div_com_t1">
+                        <label asp-for="logon.Password" class="label"></label>
+                        <input asp-for="logon.Password" class="input1" />
+                    </div>
+                </div>
+
+                <div class=" div_subm" style="margin-top: 90px;">
+                    <input class="input_subm" type="submit" value="Войти" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
